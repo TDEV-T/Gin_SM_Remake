@@ -8,6 +8,8 @@ import (
 
 type UserController interface {
 	Register(c *gin.Context)
+	Login(c *gin.Context)
+	Current(c *gin.Context)
 }
 
 type userController struct {
@@ -22,4 +24,12 @@ func NewUserController(uservice *service.UserService) UserController {
 
 func (s *userController) Register(c *gin.Context) {
 	s.userService.RegisterUser(c)
+}
+
+func (s *userController) Login(c *gin.Context) {
+	s.userService.LoginUser(c)
+}
+
+func (s *userController) Current(c *gin.Context) {
+	s.userService.CurrentUser(c)
 }

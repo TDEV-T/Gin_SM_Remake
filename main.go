@@ -11,9 +11,10 @@ import (
 func main() {
 	server := gin.Default()
 
+	env := service.LoadConfig()
 	db := service.LoadConnect()
 
-	fmt.Println(db)
+	fmt.Println(db, env)
 
 	apiGroup := server.Group("/api")
 

@@ -8,11 +8,12 @@ import (
 )
 
 type ConnectConfig struct {
-	host     string
-	port     string
-	user     string
-	password string
-	dbname   string
+	HOST     string
+	PORT     string
+	USER     string
+	PASSWORD string
+	DBNAME   string
+	JWT      string
 }
 
 var (
@@ -29,11 +30,12 @@ func LoadConfig() *ConnectConfig {
 		}
 
 		Config = &ConnectConfig{
-			host:     os.Getenv("DB_HOST"),
-			port:     os.Getenv("DB_PORT"),
-			user:     os.Getenv("DB_USER"),
-			password: os.Getenv("DB_PASS"),
-			dbname:   os.Getenv("DB_NAME"),
+			HOST:     os.Getenv("DB_HOST"),
+			PORT:     os.Getenv("DB_PORT"),
+			USER:     os.Getenv("DB_USER"),
+			PASSWORD: os.Getenv("DB_PASS"),
+			DBNAME:   os.Getenv("DB_NAME"),
+			JWT:      os.Getenv("JWT_SECRET"),
 		}
 	})
 

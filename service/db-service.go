@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"sync"
 	"time"
 
@@ -21,17 +20,21 @@ var (
 )
 
 func LoadConnect() *gorm.DB {
-	var db *gorm.DB
+	if DB_Con == nil {
+		var db *gorm.DB
 
-	db_once.Do(func() {
-		db = setUPDB()
+		db_once.Do(func() {
+			db = setUPDB()
 
-		db.AutoMigrate(&models.User{})
-	})
+			db.AutoMigrate(&models.User{})
+		})
 
-	DB_Con = db
+		DB_Con = db
 
-	return db
+		return db
+	}
+
+	return DB_Con
 }
 
 func CloseConnect(db *gorm.DB) {
@@ -41,13 +44,7 @@ func CloseConnect(db *gorm.DB) {
 func setUPDB() *gorm.DB {
 	env := LoadConfig()
 
-	port, err := strconv.Atoi(env.port)
-
-	if err != nil {
-		panic("Can't Change String to interger")
-	}
-
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", env.host, port, env.user, env.password, env.dbname)
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", env.HOST, env.PORT, env.USER, env.PASSWORD, env.DBNAME)
 
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
